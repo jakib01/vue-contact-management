@@ -9,7 +9,7 @@
     </div>
   </div>
 
-
+<!--<pre>{{contacts}}</pre>-->
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-6">
@@ -41,8 +41,31 @@
 </template>
 
 <script>
+import {ContactService} from "@/services/ContactService";
+
 export default {
-  name: "ContactManager"
+  name: "ContactManager",
+  data: function(){
+    return{
+      loading: false, //loading GIF not active right now
+      contacts: [], //main data
+      errorMessage: null //if any error message
+    }
+  },
+  create: async function(){//this is a lifecycle function
+    try {
+      // this.loading = true //when data will load, loading GIF not active right now
+      let response = await ContactService.getAllContacts() //fetching data from API
+      this.contacts = response.data
+      // this.loading = false //when data loading finish,loading GIF not active right now
+
+    }catch (error) {
+      this.errorMessage = error
+    }
+  },
+  methods: function(){
+
+  }
 }
 </script>
 
